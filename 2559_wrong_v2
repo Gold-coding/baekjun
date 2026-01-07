@@ -1,0 +1,47 @@
+#include <stdio.h>
+
+int main(void){
+    int N;
+    int m[3], w[3];
+    int ab, ac, ba, bc, ca, cb;
+
+    scanf("%d", &N);
+    for(int i = 0; i < 3; i++){
+        scanf("%d %d", &m[i], &w[i]);
+    }
+
+    for(int i = 0; i < 3; i++){
+        if(m[i] < 0 || w[i] < 0){
+            printf("0");
+            return 0;
+        }
+    }
+
+    if(m[0] + m[1] + m[2] != w[0] + w[1] + w[2]){
+        printf("0");
+        return 0;
+    }
+
+    for(ab = 0; ab <= m[0]; ab++){
+        ac = m[0] - ab;
+
+        bc = w[2] - ac;
+        ba = m[1] - bc;
+        if(ba < 0 || bc < 0) continue;
+
+        ca = w[0] - ba;
+        cb = w[1] - ab;
+        if(ca < 0 || cb < 0) continue;
+
+        if(ca + cb != m[2]) continue;
+
+        printf("1\n");
+        printf("%d %d\n", ab, ac);
+        printf("%d %d\n", ba, bc);
+        printf("%d %d\n", ca, cb);
+        return 0;
+    }
+
+    printf("0");
+    return 0;
+}
