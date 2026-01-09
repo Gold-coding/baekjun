@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+int main() {
+    int N, r, c;
+    scanf("%d %d %d", &N, &r, &c);
+
+    int result = 0;
+    for (int i = N - 1; i >= 0; i--) {
+        int half = 1 << i;
+        int area = half * half;
+
+        if (r >= half) {
+            result += area * 2;
+            r -= half;
+        }
+        if (c >= half) {
+            result += area;
+            c -= half;
+        }
+    }
+
+    printf("%d\n", result);
+    return 0;
+}
