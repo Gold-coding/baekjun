@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+int n;
+int col[15], d1[30], d2[30];
+int cnt;
+
+void dfs(int r) {
+    if (r == n) {
+        cnt++;
+        return;
+    }
+    for (int c = 0; c < n; c++) {
+        if (!col[c] && !d1[r + c] && !d2[r - c + n - 1]) {
+            col[c] = d1[r + c] = d2[r - c + n - 1] = 1;
+            dfs(r + 1);
+            col[c] = d1[r + c] = d2[r - c + n - 1] = 0;
+        }
+    }
+}
+
+int main() {
+    scanf("%d", &n);
+    dfs(0);
+    printf("%d\n", cnt);
+    return 0;
+}
