@@ -1,0 +1,44 @@
+#include <stdio.h>
+
+int N;
+long long result = 0;
+
+void dfs(int row, int col, int diag1, int diag2) {
+    if (row == N) {
+        result++;
+        return;
+    }
+
+    int available = ((1 << N) - 1) & ~(col | diag1 | diag2);
+
+    while (available) {
+        int bit = available & -available;
+        available -= bit;
+
+        dfs(row + 1,
+            col | bit,
+            (diag1 | bit) << 1,
+            (diag2 | bit) >> 1);
+    }
+}
+
+int main(void) {
+    scanf("%d", &N);
+
+    int half = N / 2;
+
+    for (int c = 0; c < half; c++) {
+        int bit = 1 << c;
+        dfs(1, bit, bit << 1, bit >> 1);
+    }
+
+    result *= 2;
+
+    if (N % 2 == 1) {
+        int mid = 1 << half;
+        dfs(1, mid, mid << 1, mid >> 1);
+    }
+
+    printf("%lld\n", result);
+    return 0;
+}
