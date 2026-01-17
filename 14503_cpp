@@ -1,0 +1,63 @@
+#include <iostream>
+using namespace std;
+
+int n, m;
+int r, c, d;
+int room[50][50];
+
+int dr[4] = {-1, 0, 1, 0};
+int dc[4] = {0, 1, 0, -1};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    cin >> n >> m;
+    cin >> r >> c >> d;
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cin >> room[i][j];
+        }
+    }
+
+    int cleaned = 0;
+
+    while (true) {
+        if (room[r][c] == 0) {
+            room[r][c] = 2;
+            cleaned++;
+        }
+
+        bool found = false;
+
+        for (int i = 0; i < 4; i++) {
+            d = (d + 3) % 4;
+            int nr = r + dr[d];
+            int nc = c + dc[d];
+
+            if (room[nr][nc] == 0) {
+                r = nr;
+                c = nc;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            int back = (d + 2) % 4;
+            int br = r + dr[back];
+            int bc = c + dc[back];
+
+            if (room[br][bc] == 1) {
+                break;
+            } else {
+                r = br;
+                c = bc;
+            }
+        }
+    }
+
+    cout << cleaned << "\n";
+    return 0;
+}
