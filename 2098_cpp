@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+const int INF = 0x3f3f3f3f;
+
+int n;
+int w[16][16];
+int dp[16][1 << 16];
+
+int tsp(int cur, int visited) {
+    if (visited == (1 << n) - 1) {
+        if (w[cur][0] == 0) return INF;
+        return w[cur][0];
+    }
+
+    int &ret = dp[cur][visited];
+    if (ret != -1) return ret;
+    ret = INF;
+
+    for (int next = 0; next < n; next++) {
+        if (visited & (1 << next)) continue;
+        if (w[cur][next] == 0) continue;
+        ret = min(ret, w[cur][next] + tsp(next, visited | (1 << next)));
+    }
+
+    return ret;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cin >> n;
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            cin >> w[i][j];
+
+    memset(dp, -1, sizeof(dp));
+    cout << tsp(0, 1);
+}
